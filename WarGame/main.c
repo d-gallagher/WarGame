@@ -15,58 +15,83 @@
 	*If this occurs on the final round, the sum of points are lost from the game.
 */
 #include<stdio.h>
+#include<string.h>
 
-//struct player {
-//	int playerNum;
-//	int hand[13];
-//	int score;
-//	char cardPlayed;
-//};
+typedef struct{
+	int hand[13];
+	char cardPlayed;
+} Hand;
+
 typedef struct {
-		int playerNum;
-		int hand[13];
+		char *name;
 		int score;
-		char cardPlayed;
-}player;
+		int playerNum;
+				
+}Player;
+// Global Data Members
+//Array of players & number of players in game
+Player players[13];
+int numPlayers;
 
-create_player(int playerNum, int hand[13], int score, char cardPlayed);
-//void playerStart(struct player aPlayer);
-//struct player aPlayer;
 
-void main() {
-	//Data Members
-	int playerHand[13];
-	int numPlayers;
-	//counters
-	int i;
 
-	//Start Game
-	printf("Please enter number of players between 2 & 13: \n");
-	scanf("%d", &numPlayers);
-	printf("Beginning game for %d players.\n", numPlayers);
-	for (i = 0; i < numPlayers; i++) {
-		create_player(numPlayers,playerHand[13],0,'A');
-		for (i = 0; i < (sizeof(playerHand) / sizeof(playerHand[0])); i++) {
-			playerHand[i] = i + 1;
+void create_player()
+{
+//	Player players[13];
+//	int playerNum = 2;
+
+	do {
+		printf("Please enter amount of players between 2 and 13:\n");
+		scanf("%d", &numPlayers);
+	} while (!(numPlayers >= 2 && numPlayers <= 13));
+
+	printf("A game has been created with %d Players.\n", numPlayers);
+	//decremet numPlayers to account for array index position
+	numPlayers -= 1;
+	printf("Please enter a name for your player:\n");
+//	scanf(" %s", &players[0].name);
+//	scanf_s("%s", players[0].name, _countof(players[0].name));
+//	players[0].name = "First";
+	printf("You have entered %s\n", players[0].name);
+	players[0].score = 0;
+	players[0].playerNum = 1;
+
+	for (int i = 1; i <= numPlayers; i++) {
+		players[i].name = "Player";
+		players[i].score = 0;
+		players[i].playerNum = (i+1);
 	}
+}//end create_player()
+
+void display_players() {
+	for (int i = 0; i <= numPlayers; i++) {
+		printf("Name: %s %d Score: %d\n", players[i].name, players[i].playerNum, players[i].score);
+	}
+}
+//==========================================
+void main() {
 	
+	printf("Create_Player()\n");
+	create_player();
+	printf("Display_Player()\n");
+	display_players();
 
 }// End Main
 
 
-struct player* create_player(int playerNum,int hand[13],int score,char cardPlayed)
-{
-	struct player* newPlayer = (struct player*)malloc(sizeof(struct player));
-	if (newPlayer)
-	{
-		newPlayer->playerNum = playerNum;
-		newPlayer->hand[13] = hand[13];
-		newPlayer->score = score;
-		newPlayer->cardPlayed = cardPlayed;
-	}
-
-	return newPlayer;
-}
+//struct player* create_player(int playerNum,int hand[13],int score,char cardPlayed)
+//{
+//	struct player* newPlayer = (struct player*)malloc(sizeof(struct player));
+//	if (newPlayer)
+//	{
+//		newPlayer->playerNum = playerNum;
+//		newPlayer->hand[13] = hand[13];
+//		newPlayer->score = score;
+//		newPlayer->cardPlayed = cardPlayed;
+//	}
+//
+//	return newPlayer;
+//}
 
 //struct playerStart(struct player p) {
 //	int i;
@@ -78,4 +103,11 @@ struct player* create_player(int playerNum,int hand[13],int score,char cardPlaye
 //		printf("\n");
 //	}
 //	return p;
+//}
+
+//void create_player()
+//{
+//	int numPlayers;
+//	printf("Please enter amount of players: ");
+//	Player players[0];
 //}
