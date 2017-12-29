@@ -39,7 +39,7 @@ void create_player()
 {
 //	Player players[13];
 //	int playerNum = 2;
-
+	char *playerName[10];
 	do {
 		printf("Please enter amount of players between 2 and 13:\n");
 		scanf("%d", &numPlayers);
@@ -48,13 +48,19 @@ void create_player()
 	printf("A game has been created with %d Players.\n", numPlayers);
 	//decremet numPlayers to account for array index position
 	numPlayers -= 1;
+	//Get name of users player
 	printf("Please enter a name for your player:\n");
-//	scanf(" %s", &players[0].name);
+	scanf("%s", playerName);
 //	scanf_s("%s", players[0].name, _countof(players[0].name));
-//	players[0].name = "First";
+//	for (int a = 0; a <= 10; a++) {
+//		players[0].name[a] = playerName[a];
+//	}
+//	strcpy(playerName, players[0].name);
+	players[0].name = playerName;
 	printf("You have entered %s\n", players[0].name);
 	players[0].score = 0;
 	players[0].playerNum = 1;
+//	printf("You are Player 1.\n");
 
 	for (int i = 1; i <= numPlayers; i++) {
 		players[i].name = "Player";
@@ -64,16 +70,19 @@ void create_player()
 }//end create_player()
 
 void display_players() {
+	printf("Players:\n\n");
 	for (int i = 0; i <= numPlayers; i++) {
-		printf("Name: %s %d Score: %d\n", players[i].name, players[i].playerNum, players[i].score);
+		printf("Name: %s %d \tScore: %d\n", players[i].name, players[i].playerNum, players[i].score);
 	}
 }
+
+
 //==========================================
 void main() {
 	
-	printf("Create_Player()\n");
+	printf("Create_Player()\n\n");
 	create_player();
-	printf("Display_Player()\n");
+	printf("Display_Player()\n\n");
 	display_players();
 
 }// End Main
