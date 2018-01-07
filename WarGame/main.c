@@ -20,7 +20,6 @@
 #include <time.h>
 #include <string.h>
 #include <ctype.h>
-
 //============Structures=========
 typedef struct {
 		char name[10];
@@ -30,17 +29,12 @@ typedef struct {
 		int cardPlayed[13];
 		char cardFace;
 }Player;
-
 //========Global Data Members=======
 //Array of players & number of players in game
 Player players[10];
 // 2,3,4,5,6,7,8,9,10,11,12,13,14
-//int playerHands[10][13];
-int handsize = 13;
 int numPlayers;
 int cardCount = 0;
-
-
 //===========Functions================
 // create_player() > create players for game
 void create_player()
@@ -67,7 +61,7 @@ void create_player()
 	}
 }//end create_player()
 
-//shuffle_hand()
+//shuffle_hand() to shuffle AI hand
 void shuffle_AI_hand(int *array, int n) {
 	srand((unsigned)time(NULL));
 	for (int i = 0; i < n - 1; i++) {
@@ -95,11 +89,13 @@ void display_players(int n) {
 	}
 }//end display_players()
 
+//clear buffer
 void clear(void)
 {
 	while (getchar() != '\n');
 }//end clear
 
+// take user input to play a valid card from hand
 void play_round(int n) {
 	//User selects card
 	do {
@@ -116,6 +112,7 @@ void play_round(int n) {
 	}
 }//end round() 
 
+//for each card played in a round (int n), assign face value to card
 void check_card(int n) {
 	for (int i = 0; i <= numPlayers; i++) {
 		switch (players[i].cardPlayed[n]) {
@@ -162,12 +159,10 @@ void check_card(int n) {
 
 		printf("Player %s played %c\n", players[i].name, players[i].cardFace);
 	}//end for
-}
+}//end check_card()
 
+//accumulate total points played in round
 int score_round(int playerNumber, int position) {
-	/*
-	> iterate through each players last played card and add up total score for the round
-	*/
 	int totalScore = 0;
 
 	for (int i = 0; i <= playerNumber; i++) {
@@ -177,6 +172,7 @@ int score_round(int playerNumber, int position) {
 	return totalScore;
 }
 
+//validate cards played in round and find highest unique card played
 int round_winner(int playerNumber, int position) {
 	int lastCard[10];
 	int highCard;
@@ -187,10 +183,10 @@ int round_winner(int playerNumber, int position) {
 	
 	for (int i = 0; i <= playerNumber; i++) {
 		lastCard[i] = players[i].cardPlayed[position];
-		printf("Round Winner Card Played Array: %d \n", lastCard[i]);
+		printf("Round Winner (): lastCard: %d \n", lastCard[i]);
 	}
 
-	for (i = 0; i <= playerNumber; i++) {
+	/*for (i = 0; i <= playerNumber; i++) {
 		for (j = 1; j <= i; j++) {
 			if (lastCard[i] == lastCard[j]) {
 				lastCard[i] = 0;
@@ -198,16 +194,16 @@ int round_winner(int playerNumber, int position) {
 				break;
 			}
 		}
-	}
+	}*/
 
 //	highCard = lastCard[0];
-	for (i = 0; i <= playerNumber; i++) {
-			if (lastCard[i] > highCard) {
-			highCard = lastCard[i];
-			/* No duplicate element found between index 0 to i */
-			printf("HighCard in Array: %d \n", highCard);
-		}
-	}
+	//for (i = 0; i <= playerNumber; i++) {
+	//		if (lastCard[i] > highCard) {
+	//		highCard = lastCard[i];
+	//		/* No duplicate element found between index 0 to i */
+	//		printf("HighCard in Array: %d \n", highCard);
+	//	}
+	//}
 	/*for (int i = 0; i <= playerNumber; i++) {
 		lastCard[i] = players[i].cardPlayed[position];
 		//printf("Round Winner Card Played Array: %d \n", array[i]);
@@ -260,84 +256,7 @@ void main() {
 	}
 //	printf("Display_Player()\n\n");
 	display_players(round);
-
-	
-
 }// End Main
 
-//*********************************Snippets**************************************
 
-//struct player* create_player(int playerNum,int hand[13],int score,char cardPlayed)
-//{
-//	struct player* newPlayer = (struct player*)malloc(sizeof(struct player));
-//	if (newPlayer)
-//	{
-//		newPlayer->playerNum = playerNum;
-//		newPlayer->hand[13] = hand[13];
-//		newPlayer->score = score;
-//		newPlayer->cardPlayed = cardPlayed;
-//	}
-//
-//	return newPlayer;
-//}
-
-//struct playerStart(struct player p) {
-//	int i;
-//
-//	//create player hand
-//	for (i = 0; i < (sizeof(p.hand) / sizeof(p.hand[0])); i++) {
-//		p.hand[i] = i + 1;
-//		printf("%d", p.hand[i]);
-//		printf("\n");
-//	}
-//	return p;
-//}
-
-//void create_player()
-//{
-//	int numPlayers;
-//	printf("Please enter amount of players: ");
-//	Player players[0];
-//}
-
-/*			Shuffle Array Example
-#include <time.h>
-
-void shuffle(int *array, int n) {
-srand((unsigned)time(NULL));
-for (int i = 0; i < n - 1; i++) {
-size_t j = i + rand() / (RAND_MAX / (n - i) + 1);
-int t = array[j];
-array[j] = array[i];
-array[i] = t;
-}
-}
-
-#define N 6
-
-int main() {
-int positions[N] = {0, 1, 2, 3, 4, 5};
-
-for (int j = 0; j < 10; j++) {
-shuffle(positions, N);
-for (int x = 0; x < N; x++) printf("%d ", positions[x]);
-printf("\n");
-}
-
-return 0;
-}
-						Create Hand method
-//create_hand() > create a randomised hand for each player
-/*void create_hand(Hand h, const int numPlayers) {
-//create player hand array
-//int numPlayers = p;
-Hand playerHands[numPlayers];
-
-//for (int i = 0; i < (sizeof(h.hand) / sizeof(h.hand[0])); i++)
-for (int i = 0; i < numPlayers; i++) {
-h.hand[i] = i + 1;
-printf("%d", h.hand[i]);
-printf("\n");
-}
-}*/
 
